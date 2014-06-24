@@ -1,3 +1,4 @@
+{-# LANGUAGE BangPatterns #-}
 module Forecasting.Regression where
 
 import Data.List
@@ -27,4 +28,8 @@ level0 x list = mean $ take x list
 mean :: Floating a => [a] -> a
 mean x = fst $ foldl' (\(!m, !n) x -> (m+(x-m)/(n+1),n+1)) (0,0) x
 
-sumOfSquares = sum . map (^ 2)
+sumOfSquares  xs = sum $ map (^ 2) xs
+
+standardError sse xs = sqrt(sse / n -1 )
+  where
+    !n = fromIntegral $ length xs

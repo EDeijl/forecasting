@@ -1,3 +1,5 @@
+{-# LANGUAGE BangPatterns #-}
+
 module Main where
 
 import Forecasting.Regression
@@ -25,6 +27,10 @@ main  = do
   let withFileEnd = map (++ "\n") withTabs
   writeFile outputFile "t\tDemand\tlevel estimate\n"
   mapM_ (\x -> appendFile outputFile x) withFileEnd
+  let dSet = zip columnY smooth
+  let errors = drop 1 $ scanl (\a (x, y) -> x - y) 0 dSet
+  let squaredErrors = sumOfSquares errors
+  let sError = standardError squaredErrors errors
 
 
 rFloats :: [String] -> [Float]

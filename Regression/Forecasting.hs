@@ -19,3 +19,12 @@ linearReg xys = let !xs = map fst xys -- lijst met alle x waarden
                     !beta = (n * sXY - sX * sY) / (n * sXX - sX * sX) -- slope
                     !r = (n * sXY - sX * sY) / (sqrt $ (n * sXX - sX^2) * (n * sYY - sY ^ 2)) -- pierson regressie
                   in (alpha, beta, r) -- geef b0 b1 en r terug
+
+smoothing level0 alpha = scanl (\s y -> alpha * y + (1-alpha) * s) level0
+
+level0 x list = mean $ take x list
+
+mean :: Floating a => [a] -> a
+mean x = fst $ foldl' (\(!m, !n) x -> (m+(x-m)/(n+1),n+1)) (0,0) x
+
+sumOfSquares = sum . map (^ 2)

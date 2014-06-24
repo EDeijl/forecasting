@@ -3,3 +3,7 @@
 *.o
 regressie.txt
 forecasting
+Main
+makefile
+smooth.txt
+smoothing.txt
